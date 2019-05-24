@@ -18,8 +18,6 @@ defmodule Triton.MaterializedView do
       end
 
       defmodule MaterializedView do
-        @after_compile __MODULE__
-
         @materialized_view []
 
         unquote(block)
@@ -29,8 +27,6 @@ defmodule Triton.MaterializedView do
           { :__name__, unquote(name) }
           | Module.get_attribute(__MODULE__, :materialized_view)
         ])
-
-        def __after_compile__(_, _), do: Triton.Setup.MaterializedView.setup(__MODULE__.__struct__)
 
         defstruct Module.get_attribute(__MODULE__, :materialized_view)
       end

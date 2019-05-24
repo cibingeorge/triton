@@ -21,8 +21,6 @@ defmodule Triton.Table do
       end
 
       defmodule Table do
-        @after_compile __MODULE__
-
         @table []
         @fields %{}
 
@@ -34,8 +32,6 @@ defmodule Triton.Table do
           { :__fields__, Module.get_attribute(__MODULE__, :fields) }
           | Module.get_attribute(__MODULE__, :table)
         ])
-
-        def __after_compile__(_, _), do: Triton.Setup.Table.setup(__MODULE__.__struct__)
 
         defstruct Module.get_attribute(__MODULE__, :table)
       end

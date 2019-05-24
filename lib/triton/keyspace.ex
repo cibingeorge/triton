@@ -7,7 +7,6 @@ defmodule Triton.Keyspace do
 
   defmacro keyspace(name, [conn: conn], [do: block]) do
     quote do
-      @after_compile __MODULE__
 
       @keyspace []
       @fields %{}
@@ -19,8 +18,6 @@ defmodule Triton.Keyspace do
         { :__name__, unquote(name) }
         | Module.get_attribute(__MODULE__, :keyspace)
       ])
-
-      def __after_compile__(_, _), do: Triton.Setup.Keyspace.setup(__MODULE__.__struct__)
 
       defstruct Module.get_attribute(__MODULE__, :keyspace)
     end
