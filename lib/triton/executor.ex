@@ -1,6 +1,18 @@
 defmodule Triton.Executor do
   defmacro __using__(_) do
     quote do
+      def table(module) do
+        Module.concat(module, Table).__struct__
+      end
+
+      def keyspace(module) do
+        table(module).__keyspace__
+      end
+
+      def connection(module) do
+        keyspace(module).__struct__.__conn__
+      end
+
       def all(query, options \\ []) do
         with {:ok, results} <- Triton.Executor.execute(query, options) do
           {:ok, transform_results(query, results)}
